@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dinesh.emp.springsecurity.model.User;
+import com.dinesh.emp.springsecurity.model.Users;
 import com.dinesh.emp.springsecurity.service.UserService;
 import com.dinesh.emp.springsecurity.web.dto.UserRegistrationDto;
 
@@ -36,7 +36,7 @@ public class UserRegistrationController {
     public String registerUserAccount(@ModelAttribute("user") @Valid UserRegistrationDto userDto,
                                       BindingResult result){
 
-        User existing = userService.findByEmail(userDto.getEmail());
+        Users existing = userService.findByEmail(userDto.getEmail());
         if (existing != null){
             result.rejectValue("email", null, "There is already an account registered with that email");
         }

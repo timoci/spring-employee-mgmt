@@ -1,9 +1,12 @@
 package com.dinesh.emp.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.UniqueConstraint;
+import javax.validation.Constraint;
 
 @Entity
 public class Employee {
@@ -11,7 +14,10 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
+	//@Column(unique=true, nullable=false) 
 	private String name;
+	
 	private Double salary;
 
 	public long getId() {

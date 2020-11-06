@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dinesh.emp.springsecurity.model.Role;
-import com.dinesh.emp.springsecurity.model.User;
+import com.dinesh.emp.springsecurity.model.Users;
 import com.dinesh.emp.springsecurity.repository.UserRepository;
 import com.dinesh.emp.springsecurity.web.dto.UserRegistrationDto;
 
@@ -26,29 +26,29 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public User findByEmail(String email){
+    public Users findByEmail(String email){
         return userRepository.findByEmail(email);
     }
 
-    public User save(UserRegistrationDto registration){
-        User user = new User();
-        user.setFirstName(registration.getFirstName());
-        user.setLastName(registration.getLastName());
-        user.setEmail(registration.getEmail());
-        user.setPassword(passwordEncoder.encode(registration.getPassword()));
-        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
-        return userRepository.save(user);
+    public Users save(UserRegistrationDto registration){
+        Users users = new Users();
+        users.setFirstName(registration.getFirstName());
+        users.setLastName(registration.getLastName());
+        users.setEmail(registration.getEmail());
+        users.setPassword(passwordEncoder.encode(registration.getPassword()));
+        users.setRoles(Arrays.asList(new Role("ROLE_USER")));
+        return userRepository.save(users);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if (user == null){
+        Users users = userRepository.findByEmail(email);
+        if (users == null){
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(users.getEmail(),
+                users.getPassword(),
+                mapRolesToAuthorities(users.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
